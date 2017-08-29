@@ -46,8 +46,11 @@ function Run() {
     setTimeout(function () { $.post('Home/FormData/', {}, _onFormData); }, 500);
 
     function _onFormData(data) {
-        console.log(data);
         var form = controller.IsncsciForm;
+
+        $('#AnalContraction').val(getBinaryObservationValueFrom(data.AnalContraction));
+        $('#AnalSensation').val(getBinaryObservationValueFrom(data.AnalSensation));
+
 
         updateLevel(form, 1, null, data.C2LeftPrick, data.C2LeftTouch, null, data.C2RightPrick, data.C2RightTouch);
         updateLevel(form, 2, null, data.C3LeftPrick, data.C3LeftTouch, null, data.C3RightPrick, data.C3RightTouch);
@@ -93,6 +96,20 @@ function Run() {
 
         level.RightPrick.UpdateValues(rightPrick, false, false, null, '', '');
         level.RightTouch.UpdateValues(rightTouch, false, false, null, '', '');
+    }
+
+    function getBinaryObservationValueFrom(value) {
+        if (value === 0)
+            return 'None';
+
+        if (value === 1)
+            return 'Yes';
+
+        if (value === 2)
+            return 'No';
+
+        if (value === 4)
+            return 'NT';
     }
 }
 
