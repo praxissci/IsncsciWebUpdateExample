@@ -1,0 +1,12 @@
+C:\lalo\Other\IsncsciWeb\Isncsci.Tests\bin\Debug\Isncsci.Tests.dll
+C:\lalo\Other\IsncsciWeb\Isncsci.Tests\bin\Debug\Isncsci.Tests.pdb
+C:\lalo\Other\IsncsciWeb\Isncsci.Tests\obj\Debug\Isncsci.Tests.csprojResolveAssemblyReference.cache
+C:\lalo\Other\IsncsciWeb\Isncsci.Tests\obj\Debug\Isncsci.Tests.dll
+C:\lalo\Other\IsncsciWeb\Isncsci.Tests\obj\Debug\Isncsci.Tests.pdb
+C:\lalo\Other\IsncsciWeb\Isncsci.Tests\bin\Debug\Rhi.Isncsci.Tests-License.txt
+E:\em\IsncsciAlgorithmSample\IsncsciWeb\Isncsci.Tests\bin\Debug\Rhi.Isncsci.Tests-License.txt
+E:\em\IsncsciAlgorithmSample\IsncsciWeb\Isncsci.Tests\bin\Debug\Isncsci.Tests.dll
+E:\em\IsncsciAlgorithmSample\IsncsciWeb\Isncsci.Tests\bin\Debug\Isncsci.Tests.pdb
+E:\em\IsncsciAlgorithmSample\IsncsciWeb\Isncsci.Tests\obj\Debug\Isncsci.Tests.csprojResolveAssemblyReference.cache
+E:\em\IsncsciAlgorithmSample\IsncsciWeb\Isncsci.Tests\obj\Debug\Isncsci.Tests.dll
+E:\em\IsncsciAlgorithmSample\IsncsciWeb\Isncsci.Tests\obj\Debug\Isncsci.Tests.pdb

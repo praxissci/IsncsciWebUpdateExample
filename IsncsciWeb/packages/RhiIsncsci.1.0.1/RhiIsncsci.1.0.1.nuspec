@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>RhiIsncsci</id>
+    <version>1.0.1</version>
+    <title>RHI ISNCSCI Algorithm</title>
+    <authors>Rick Hansen Institute, Eduardo Echeverria</authors>
+    <owners>Rick Hansen Institute, Eduardo Echeverria</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>http://www.isncscialgorithm.com/</projectUrl>
+    <iconUrl>http://www.isncscialgorithm.com/favicon.ico</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>This tool which utilizes the raw test scores determined by performing the exam to electronically score and classify a spinal cord injury using the ISNCSCI (Revised 2011) scoring rules.</description>
+    <summary>C# algorithm to determine the international standards for neurological classification of spinal cord injury ISNCSCI.</summary>
+    <copyright>2014 Rick Hansen Institute</copyright>
+    <language>en-US</language>
+    <tags>ISNCSCI Algorithm ASIA spinal cord injury classification</tags>
+  </metadata>
+</package>

@@ -1,0 +1,773 @@
+﻿@model Isncsci.Web.Models.Algorithm.NeurologyFormModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>ISNCSCI Algorithm :: Computer app to automatically perform the calculations of the ASIA neurology exam</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/ico" href="/favicon.ico" />
+    @Styles.Render("~/Content/Css/Form/FormIndex")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/Form/Index")
+</head>
+<body>
+    <div class="header">
+        <div class="page-actions">
+            <div class="actions-container">
+                <div class="identity"><a id="BtnHome" href="@Url.Content("~/")"><img src="/Content/Images/logo.gif" width="181" height="30" alt="ISNCSCI Algorithm for the ASIA Classification" title="ISNCSCI Algorithm for the ASIA Classification" /></a></div>
+                <ul>
+                    <li class="name-bar" data-name="NameBar" data-controller="NeurologyTest">&nbsp;</li>
+                    <li class="calculator">
+                        <span>
+                            <label>
+                                <a href="#" data-name="CalculateButton" data-controller="NeurologyTest">Calculate</a>
+                            </label>
+                        </span>
+                    </li>
+                    <li class="clearContent">
+                        <span>
+                            <label>
+                                <a href="#" data-name="ClearFormButton" data-controller="NeurologyTest">Clear this form</a>
+                            </label>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="section">
+                <div class="input-controls">
+                    <div class="impairment-flags-explanation">
+                        <a href="/Home/Help#WhenToUseExclamation" class="mobile">Learn about <strong>!</strong> and <strong>*</strong>.</a>
+                        <a href="/Home/Help#WhenToUseExclamation">Use the <strong>!</strong> and <strong>*</strong> symbols to indicate impairment not due to SCI.</a>
+                    </div>
+                    <div class="extra-input-controls">
+                        <input type="checkbox" id="DisablePropagationBox" name="DisablePropagationBox" class="extra-input" data-controller="NeurologyTest" data-name="DisablePropagationBox" />
+                        <label for="DisablePropagationBox" class="extra-input">Disable down value propagation</label>
+                    </div>
+                    <ul class="value-buttons container">
+                        <li class="combo-item">
+                            <span class="value sensory motor disabled" data-controller="NeurologyTest" data-name="ValueButton" data-value="0">0</span><span class="flag sensory motor disabled" data-controller="NeurologyTest" data-name="ValueButton" data-value="0!">!</span>
+                        </li>
+                        <li class="combo-item sensory motor">
+                            <span class="value sensory motor disabled" data-controller="NeurologyTest" data-name="ValueButton" data-value="1">1</span><span class="flag sensory motor disabled" data-controller="NeurologyTest" data-name="ValueButton" data-value="1!">!</span>
+                        </li>
+                        <li class="combo-item">
+                            <span class="value sensory motor disabled" data-controller="NeurologyTest" data-name="ValueButton" data-value="2">2</span><span class="flag motor disabled" data-controller="NeurologyTest" data-name="ValueButton" data-value="2!">!</span>
+                        </li>
+                        <li class="combo-item">
+                            <span class="value motor disabled" data-controller="NeurologyTest" data-name="ValueButton" data-value="3">3</span><span class="flag motor disabled" data-controller="NeurologyTest" data-name="ValueButton" data-value="3!">!</span>
+                        </li>
+                        <li class="combo-item">
+                            <span class="value motor disabled" data-controller="NeurologyTest" data-name="ValueButton" data-value="4">4</span><span class="flag motor disabled" data-controller="NeurologyTest" data-name="ValueButton" data-value="4!">!</span>
+                        </li>
+                        <li class="combo-item">
+                            <span class="value motor disabled" data-controller="NeurologyTest" data-name="ValueButton" data-value="5">5</span><span class="flag motor disabled" data-controller="NeurologyTest" data-name="ValueButton" data-value="5*">*</span>
+                        </li>
+                        <li class="combo-item nt">
+                            <span class="value sensory motor disabled" data-controller="NeurologyTest" data-name="ValueButton" data-value="NT">NT</span><span class="flag sensory motor disabled" data-controller="NeurologyTest" data-name="ValueButton" data-value="NT!">!</span><span class="flag sensory motor disabled" data-controller="NeurologyTest" data-name="ValueButton" data-value="NT*">*</span>
+                        </li>
+                    </ul>
+                    <div class="reason container not-applicable" data-controller="NeurologyTest" data-name="ReasonNotSciContainer">
+                        <div class="label" data-controller="NeurologyTest" data-name="ReasonNotSciLabel">
+                            <label for="ReasonForImpairmentNotDueToSci">
+                                If motor impairment not due to SCI, please indicate reason:
+                            </label>
+                        </div>
+                        <div class="field">
+                            <select id="ReasonForImpairmentNotDueToSci" name="ReasonForImpairmentNotDueToSci" class="cell-input" data-controller="NeurologyTest" data-name="ReasonNotSci"></select>
+                        </div>
+                    </div>
+                    <div class="comments container not-applicable" data-controller="NeurologyTest" data-name="ReasonNotSciCommentContainer">
+                        <div class="label" data-controller="NeurologyTest" data-name="ReasonNotSciCommentLabel">
+                            <label for="CommentsReasonForImpairmentNotDueToSci">
+                                Specify:&nbsp;
+                            </label>
+                        </div>
+                        <div class="field">
+                            <textarea id="CommentsReasonForImpairmentNotDueToSci" name="CommentsReasonForImpairmentNotDueToSci" rows="10" class="cell-input" data-controller="NeurologyTest" data-name="ReasonNotSciComment"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="right-column">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2" rowspan="2" class="side-label">Right</th>
+                        <th colspan="2" class="measurement-type">Motor</th>
+                        <th colspan="2" class="measurement-type">Sensory</th>
+                    </tr>
+                    <tr>
+                        <th colspan="2" class="measurement-subtype">Key<br />muscles</th>
+                        <th colspan="2" class="measurement-subtype">Key sensory<br />points</th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">&nbsp;</th>
+                        <th class="measurement-technique">Light Touch (LT)</th>
+                        <th class="measurement-technique">Pin Prick (PP)</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="total-label">Right totals</td>
+                        <td class="total" data-name="RightMotorTotal" data-controller="IsncsciTotals">&nbsp;</td>
+                        <td class="total" data-name="RightTouchTotal" data-controller="IsncsciTotals">&nbsp;</td>
+                        <td class="total" data-name="RightPrickTotal" data-controller="IsncsciTotals">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="maximum-label">(Maximum)</td>
+                        <td class="maximum">(50)</td>
+                        <td class="maximum">(56)</td>
+                        <td class="maximum">(56)</td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td colspan="3" rowspan="3">&nbsp;</td>
+                        <td class="level-name">C2</td>
+                        <td data-name="C2RightTouch" class="smart-cell sensory touch right" title="C2 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C2RightPrick" class="smart-cell sensory prick right" title="C2 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="level-name">C3</td>
+                        <td data-name="C3RightTouch" class="smart-cell sensory touch right" title="C3 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C3RightPrick" class="smart-cell sensory prick right" title="C3 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="level-name">C4</td>
+                        <td data-name="C4RightTouch" class="smart-cell sensory touch right" title="C4 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C4RightPrick" class="smart-cell sensory prick right" title="C4 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="5">
+                            <div class="location">UER</div>
+                            <div class="location-description">(Upper Extremity Right)</div>
+                        </td>
+                        <td class="helper">Elbow flexors</td>
+                        <td class="level-name">C5</td>
+                        <td data-name="C5RightMotor" class="smart-cell motor upper right" title="C5 motor right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C5RightTouch" class="smart-cell sensory touch right" title="C5 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C5RightPrick" class="smart-cell sensory prick right" title="C5 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="helper">Wrist extensors</td>
+                        <td class="level-name">C6</td>
+                        <td data-name="C6RightMotor" class="smart-cell motor upper right" title="C6 motor right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C6RightTouch" class="smart-cell sensory touch right" title="C6 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C6RightPrick" class="smart-cell sensory prick right" title="C6 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="helper">Elbow extensors</td>
+                        <td class="level-name">C7</td>
+                        <td data-name="C7RightMotor" class="smart-cell motor upper right" title="C7 motor right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C7RightTouch" class="smart-cell sensory touch right" title="C7 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C7RightPrick" class="smart-cell sensory prick right" title="C7 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="helper">Finger flexors</td>
+                        <td class="level-name">C8</td>
+                        <td data-name="C8RightMotor" class="smart-cell motor upper right" title="C8 motor right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C8RightTouch" class="smart-cell sensory touch right" title="C8 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C8RightPrick" class="smart-cell sensory prick right" title="C8 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="helper">Finger abductors <span>(little finger)</span></td>
+                        <td class="level-name">T1</td>
+                        <td data-name="T1RightMotor" class="smart-cell motor upper right" title="T1 motor right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T1RightTouch" class="smart-cell sensory touch right" title="T1 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T1RightPrick" class="smart-cell sensory prick right" title="T1 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" rowspan="12">
+                            <div id="LowestNonKeyMuscleWithMotorFunction">
+                                <h4>Lowest non-key muscles with motor function:</h4>
+                                <div>
+                                    <label for="RightLowestNonKeyMuscleWithMotorFunction">Right:</label>
+                                    <select id="RightLowestNonKeyMuscleWithMotorFunction" name="RightLowestNonKeyMuscleWithMotorFunction" data-name="RightLowestNonKeyMuscleWithMotorFunction" data-controller="NeurologyTest">
+                                        <option value=""></option>
+                                        <option value="C5">C5 - Shoulder: Flexion, extension, abduction, adduction, internal and external rotation - Elbow: Supination</option>
+                                        <option value="C6">C6 - Elbow: Pronation - Wrist: Flexion</option>
+                                        <option value="C7">C7 - Finger: Flexion at proximal joint, extension. Thumb: Flexion, extension and abduction in plane of thumb</option>
+                                        <option value="C8">C8 - Finger: Flexion at MCP joint Thumb: Opposition, adduction and abduction perpendicular to palm</option>
+                                        <option value="T1">T1 - Finger: Abduction of the index finger</option>
+                                        <option value="L2">L2 - Hip: Adduction</option>
+                                        <option value="L3">L3 - Hip: External rotation </option>
+                                        <option value="L4">L4 - Hip: Extension, abduction, internal rotation - Knee: Flexion - Ankle: Inversion and eversion - Toe: MP and IP extension</option>
+                                        <option value="L5">L5 - Hallux and Toe: DIP and PIP flexion and abduction</option>
+                                        <option value="S1">S1 - Hallux: Adduction</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="LeftLowestNonKeyMuscleWithMotorFunction">Left:</label>
+                                    <select id="LeftLowestNonKeyMuscleWithMotorFunction" name="LeftLowestNonKeyMuscleWithMotorFunction" data-name="LeftLowestNonKeyMuscleWithMotorFunction" data-controller="NeurologyTest">
+                                        <option value=""></option>
+                                        <option value="C5">C5 - Shoulder: Flexion, extension, abduction, adduction, internal and external rotation - Elbow: Supination</option>
+                                        <option value="C6">C6 - Elbow: Pronation - Wrist: Flexion</option>
+                                        <option value="C7">C7 - Finger: Flexion at proximal joint, extension. Thumb: Flexion, extension and abduction in plane of thumb</option>
+                                        <option value="C8">C8 - Finger: Flexion at MCP joint Thumb: Opposition, adduction and abduction perpendicular to palm</option>
+                                        <option value="T1">T1 - Finger: Abduction of the index finger</option>
+                                        <option value="L2">L2 - Hip: Adduction</option>
+                                        <option value="L3">L3 - Hip: External rotation </option>
+                                        <option value="L4">L4 - Hip: Extension, abduction, internal rotation - Knee: Flexion - Ankle: Inversion and eversion - Toe: MP and IP extension</option>
+                                        <option value="L5">L5 - Hallux and Toe: DIP and PIP flexion and abduction</option>
+                                        <option value="S1">S1 - Hallux: Adduction</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="CommentsContainer">
+                                <h4>Comments:</h4>
+                                <textarea id="Comments" name="Comments" cols="10" rows="10" data-name="Comments" data-controller="NeurologyTest"></textarea>
+                            </div>
+                        </td>
+                        <td class="level-name">T2</td>
+                        <td data-name="T2RightTouch" class="smart-cell sensory touch right" title="T2 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T2RightPrick" class="smart-cell sensory prick right" title="T2 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="level-name">T3</td>
+                        <td data-name="T3RightTouch" class="smart-cell sensory touch right" title="T3 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T3RightPrick" class="smart-cell sensory prick right" title="T3 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="level-name">T4</td>
+                        <td data-name="T4RightTouch" class="smart-cell sensory touch right" title="T4 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T4RightPrick" class="smart-cell sensory prick right" title="T4 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="level-name">T5</td>
+                        <td data-name="T5RightTouch" class="smart-cell sensory touch right" title="T5 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T5RightPrick" class="smart-cell sensory prick right" title="T5 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="level-name">T6</td>
+                        <td data-name="T6RightTouch" class="smart-cell sensory touch right" title="T6 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T6RightPrick" class="smart-cell sensory prick right" title="T6 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="level-name">T7</td>
+                        <td data-name="T7RightTouch" class="smart-cell sensory touch right" title="T7 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T7RightPrick" class="smart-cell sensory prick right" title="T7 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="level-name">T8</td>
+                        <td data-name="T8RightTouch" class="smart-cell sensory touch right" title="T8 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T8RightPrick" class="smart-cell sensory prick right" title="T8 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="level-name">T9</td>
+                        <td data-name="T9RightTouch" class="smart-cell sensory touch right" title="T9 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T9RightPrick" class="smart-cell sensory prick right" title="T9 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="level-name">T10</td>
+                        <td data-name="T10RightTouch" class="smart-cell sensory touch right" title="T10 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T10RightPrick" class="smart-cell sensory prick right" title="T10 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="level-name">T11</td>
+                        <td data-name="T11RightTouch" class="smart-cell sensory touch right" title="T11 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T11RightPrick" class="smart-cell sensory prick right" title="T11 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="level-name">T12</td>
+                        <td data-name="T12RightTouch" class="smart-cell sensory touch right" title="T12 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T12RightPrick" class="smart-cell sensory prick right" title="T12 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="level-name">L1</td>
+                        <td data-name="L1RightTouch" class="smart-cell sensory touch right" title="L1 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L1RightPrick" class="smart-cell sensory prick right" title="L1 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="5">
+                            <div class="location">LER</div>
+                            <div class="location-description">(Lower Extremity Right)</div>
+                        </td>
+                        <td class="helper">Hip flexors</td>
+                        <td class="level-name">L2</td>
+                        <td data-name="L2RightMotor" class="smart-cell motor upper right" title="L2 motor right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L2RightTouch" class="smart-cell sensory touch right" title="L2 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L2RightPrick" class="smart-cell sensory prick right" title="L2 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="helper">Knee extensors</td>
+                        <td class="level-name">L3</td>
+                        <td data-name="L3RightMotor" class="smart-cell motor upper right" title="L3 motor right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L3RightTouch" class="smart-cell sensory touch right" title="L3 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L3RightPrick" class="smart-cell sensory prick right" title="L3 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="helper">Ankle dorsiflexors</td>
+                        <td class="level-name">L4</td>
+                        <td data-name="L4RightMotor" class="smart-cell motor upper right" title="L4 motor right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L4RightTouch" class="smart-cell sensory touch right" title="L4 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L4RightPrick" class="smart-cell sensory prick right" title="L4 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="helper">Long toe extensors</td>
+                        <td class="level-name">L5</td>
+                        <td data-name="L5RightMotor" class="smart-cell motor upper right" title="L5 motor right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L5RightTouch" class="smart-cell sensory touch right" title="L5 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L5RightPrick" class="smart-cell sensory prick right" title="L5 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="helper">Ankle plantar flexors</td>
+                        <td class="level-name">S1</td>
+                        <td data-name="S1RightMotor" class="smart-cell motor upper right" title="S1 motor right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="S1RightTouch" class="smart-cell sensory touch right" title="S1 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="S1RightPrick" class="smart-cell sensory prick right" title="S1 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" rowspan="2">&nbsp;</td>
+                        <td class="level-name">S2</td>
+                        <td data-name="S2RightTouch" class="smart-cell sensory touch right" title="S2 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="S2RightPrick" class="smart-cell sensory prick right" title="S2 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td class="level-name">S3</td>
+                        <td data-name="S3RightTouch" class="smart-cell sensory touch right" title="S3 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="S3RightPrick" class="smart-cell sensory prick right" title="S3 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <label for="AnalContraction">(VAC) Voluntary anal contraction</label>
+                            <select id="AnalContraction" name="AnalContraction" data-name="AnalContraction" data-controller="NeurologyTest">
+                                <option value="None"></option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                                <option value="NT">NT</option>
+                            </select>
+                        </td>
+                        <td class="level-name">S4-5</td>
+                        <td data-name="S4_5RightTouch" class="smart-cell sensory touch right" title="S-45 light touch right"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="S4_5RightPrick" class="smart-cell sensory prick right" title="S-45 pin prick right"><span><a href="#">&nbsp;</a></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="dermatome-diagram-column" data-name="DermatomeDiagram" data-controller="NeurologyTest" data-src="/Home/AsiaManSvg">
+            <img src="@Url.Content("~/Content/Images/asia-man.jpg")" width="360" height="507" alt="" />
+        </div>
+        <div class="left-column">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2" class="measurement-type">Sensory</th>
+                        <th colspan="2" class="measurement-type">Motor</th>
+                        <th colspan="2" rowspan="2" class="side-label">Left</th>
+                    </tr>
+                    <tr>
+                        <th colspan="2" class="measurement-subtype">Key sensory<br />points</th>
+                        <th colspan="2" class="measurement-subtype">Key<br />muscles</th>
+                    </tr>
+                    <tr>
+                        <th class="measurement-technique">Light Touch (LT)</th>
+                        <th class="measurement-technique">Pin Prick (PP)</th>
+                        <th colspan="4">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <td class="total" data-name="LeftTouchTotal" data-controller="IsncsciTotals">&nbsp;</td>
+                        <td class="total" data-name="LeftPrickTotal" data-controller="IsncsciTotals">&nbsp;</td>
+                        <td class="total" data-name="LeftMotorTotal" data-controller="IsncsciTotals">&nbsp;</td>
+                        <td colspan="3" class="total-label">Left totals</td>
+                    </tr>
+                    <tr>
+                        <td class="maximum">(56)</td>
+                        <td class="maximum">(56)</td>
+                        <td class="maximum">(50)</td>
+                        <td colspan="3" class="maximum-label">(Maximum)</td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td data-name="C2LeftTouch" class="smart-cell sensory touch left" title="C2 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C2LeftPrick" class="smart-cell sensory prick left" title="C2 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">C2</td>
+                        <td colspan="3" rowspan="3">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td data-name="C3LeftTouch" class="smart-cell sensory touch left" title="C3 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C3LeftPrick" class="smart-cell sensory prick left" title="C3 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">C3</td>
+                    </tr>
+                    <tr>
+                        <td data-name="C4LeftTouch" class="smart-cell sensory touch left" title="C4 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C4LeftPrick" class="smart-cell sensory prick left" title="C4 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">C4</td>
+                    </tr>
+                    <tr>
+                        <td data-name="C5LeftTouch" class="smart-cell sensory touch left" title="C5 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C5LeftPrick" class="smart-cell sensory prick left" title="C5 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C5LeftMotor" class="smart-cell motor upper left" title="C5 motor left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">C5</td>
+                        <td class="helper">Elbow flexors</td>
+                        <td rowspan="5">
+                            <div class="location">UEL</div>
+                            <div class="location-description">(Upper Extremity Left)</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-name="C6LeftTouch" class="smart-cell sensory touch left" title="C6 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C6LeftPrick" class="smart-cell sensory prick left" title="C6 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C6LeftMotor" class="smart-cell motor upper left" title="C6 motor left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">C6</td>
+                        <td class="helper">Wrist extensors</td>
+                    </tr>
+                    <tr>
+                        <td data-name="C7LeftTouch" class="smart-cell sensory touch left" title="C7 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C7LeftPrick" class="smart-cell sensory prick left" title="C7 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C7LeftMotor" class="smart-cell motor upper left" title="C7 motor left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">C7</td>
+                        <td class="helper">Elbow extensors</td>
+                    </tr>
+                    <tr>
+                        <td data-name="C8LeftTouch" class="smart-cell sensory touch left" title="C8 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C8LeftPrick" class="smart-cell sensory prick left" title="C8 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="C8LeftMotor" class="smart-cell motor upper left" title="C8 motor left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">C8</td>
+                        <td class="helper">Finger flexors</td>
+                    </tr>
+                    <tr>
+                        <td data-name="T1LeftTouch" class="smart-cell sensory touch left" title="T1 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T1LeftPrick" class="smart-cell sensory prick left" title="T1 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T1LeftMotor" class="smart-cell motor upper left" title="T1 motor left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">T1</td>
+                        <td class="helper">Finger abductors <span>(little finger)</span></td>
+                    </tr>
+                    <tr>
+                        <td data-name="T2LeftTouch" class="smart-cell sensory touch left" title="T2 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T2LeftPrick" class="smart-cell sensory prick left" title="T2 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">T2</td>
+                        <td colspan="3" rowspan="12">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td data-name="T3LeftTouch" class="smart-cell sensory touch left" title="T3 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T3LeftPrick" class="smart-cell sensory prick left" title="T3 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">T3</td>
+                    </tr>
+                    <tr>
+                        <td data-name="T4LeftTouch" class="smart-cell sensory touch left" title="T4 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T4LeftPrick" class="smart-cell sensory prick left" title="T4 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">T4</td>
+                    </tr>
+                    <tr>
+                        <td data-name="T5LeftTouch" class="smart-cell sensory touch left" title="T5 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T5LeftPrick" class="smart-cell sensory prick left" title="T5 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">T5</td>
+                    </tr>
+                    <tr>
+                        <td data-name="T6LeftTouch" class="smart-cell sensory touch left" title="T6 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T6LeftPrick" class="smart-cell sensory prick left" title="T6 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">T6</td>
+                    </tr>
+                    <tr>
+                        <td data-name="T7LeftTouch" class="smart-cell sensory touch left" title="T7 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T7LeftPrick" class="smart-cell sensory prick left" title="T7 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">T7</td>
+                    </tr>
+                    <tr>
+                        <td data-name="T8LeftTouch" class="smart-cell sensory touch left" title="T8 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T8LeftPrick" class="smart-cell sensory prick left" title="T8 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">T8</td>
+                    </tr>
+                    <tr>
+                        <td data-name="T9LeftTouch" class="smart-cell sensory touch left" title="T9 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T9LeftPrick" class="smart-cell sensory prick left" title="T9 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">T9</td>
+                    </tr>
+                    <tr>
+                        <td data-name="T10LeftTouch" class="smart-cell sensory touch left" title="T10 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T10LeftPrick" class="smart-cell sensory prick left" title="T10 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">T10</td>
+                    </tr>
+                    <tr>
+                        <td data-name="T11LeftTouch" class="smart-cell sensory touch left" title="T11 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T11LeftPrick" class="smart-cell sensory prick left" title="T11 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">T11</td>
+                    </tr>
+                    <tr>
+                        <td data-name="T12LeftTouch" class="smart-cell sensory touch left" title="T12 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="T12LeftPrick" class="smart-cell sensory prick left" title="T12 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">T12</td>
+                    </tr>
+                    <tr>
+                        <td data-name="L1LeftTouch" class="smart-cell sensory touch left" title="L1 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L1LeftPrick" class="smart-cell sensory prick left" title="L1 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">L1</td>
+                    </tr>
+                    <tr>
+                        <td data-name="L2LeftTouch" class="smart-cell sensory touch left" title="L2 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L2LeftPrick" class="smart-cell sensory prick left" title="L2 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L2LeftMotor" class="smart-cell motor upper left" title="L2 motor left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">L2</td>
+                        <td class="helper">Hip flexors</td>
+                        <td rowspan="5">
+                            <div class="location">LEL</div>
+                            <div class="location-description">(Lower Extremity Left)</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-name="L3LeftTouch" class="smart-cell sensory touch left" title="L3 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L3LeftPrick" class="smart-cell sensory prick left" title="L3 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L3LeftMotor" class="smart-cell motor upper left" title="L3 motor left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">L3</td>
+                        <td class="helper">Knee extensors</td>
+                    </tr>
+                    <tr>
+                        <td data-name="L4LeftTouch" class="smart-cell sensory touch left" title="L4 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L4LeftPrick" class="smart-cell sensory prick left" title="L4 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L4LeftMotor" class="smart-cell motor upper left" title="L4 motor left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">L4</td>
+                        <td class="helper">Ankle dorsiflexors</td>
+                    </tr>
+                    <tr>
+                        <td data-name="L5LeftTouch" class="smart-cell sensory touch left" title="L5 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L5LeftPrick" class="smart-cell sensory prick left" title="L5 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="L5LeftMotor" class="smart-cell motor upper left" title="L5 motor left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">L5</td>
+                        <td class="helper">Long toe extensors</td>
+                    </tr>
+                    <tr>
+                        <td data-name="S1LeftTouch" class="smart-cell sensory touch left" title="S1 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="S1LeftPrick" class="smart-cell sensory prick left" title="S1 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="S1LeftMotor" class="smart-cell motor upper left" title="S1 motor left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">S1</td>
+                        <td class="helper">Ankle plantar flexors</td>
+                    </tr>
+                    <tr>
+                        <td data-name="S2LeftTouch" class="smart-cell sensory touch left" title="S2 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="S2LeftPrick" class="smart-cell sensory prick left" title="S2 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">S2</td>
+                        <td colspan="3" rowspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td data-name="S3LeftTouch" class="smart-cell sensory touch left" title="S3 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="S3LeftPrick" class="smart-cell sensory prick left" title="S3 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">S3</td>
+                    </tr>
+                    <tr>
+                        <td data-name="S4_5LeftTouch" class="smart-cell sensory touch left" title="S-45 light touch left"><span><a href="#">&nbsp;</a></span></td>
+                        <td data-name="S4_5LeftPrick" class="smart-cell sensory prick left" title="S-45 pin prick left"><span><a href="#">&nbsp;</a></span></td>
+                        <td class="level-name">S4-5</td>
+                        <td colspan="3">
+                            <select id="AnalSensation" name="AnalSensation" data-name="AnalSensation" data-controller="NeurologyTest">
+                                <option value="None"></option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                                <option value="NT">NT</option>
+                            </select>
+                            <label for="AnalSensation">(DAP) Deep anal pressure</label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="subscores">
+            <div class="motor">
+                <div class="title">Motor subscores</div>
+                <ul>
+                    <li>
+                        <div class="item">
+                            <span>UER</span>
+                            <span class="total" data-name="RightUpperMotorTotal" data-controller="IsncsciTotals">&nbsp;</span>
+                        </div>
+                        <div class="helper">MAX (25)</div>
+                    </li>
+                    <li>
+                        <div class="item"><span>+ UEL</span></div>
+                    </li>
+                    <li>
+                        <div class="item"><span class="total" data-name="LeftUpperMotorTotal" data-controller="IsncsciTotals">&nbsp;</span></div>
+                        <div class="helper">(25)</div>
+                    </li>
+                    <li>
+                        <div class="item"><span>= UEMS TOTAL</span></div>
+                    </li>
+                    <li>
+                        <div class="item"><span class="total" data-name="UpperMotorTotal" data-controller="IsncsciTotals">&nbsp;</span></div>
+                        <div class="helper">(50)</div>
+                    </li>
+                    <li>
+                        <div class="item">
+                            <span>LER</span>
+                            <span class="total" data-name="RightLowerMotorTotal" data-controller="IsncsciTotals">&nbsp;</span>
+                        </div>
+                        <div class="helper">MAX (25)</div>
+                    </li>
+                    <li>
+                        <div class="item"><span>+ LEL</span></div>
+                    </li>
+                    <li>
+                        <div class="item"><span class="total" data-name="LeftLowerMotorTotal" data-controller="IsncsciTotals">&nbsp;</span></div>
+                        <div class="helper">(25)</div>
+                    </li>
+                    <li>
+                        <div class="item"><span>= LEMS TOTAL</span></div>
+                    </li>
+                    <li>
+                        <div class="item"><span class="total" data-name="LowerMotorTotal" data-controller="IsncsciTotals">&nbsp;</span></div>
+                        <div class="helper">(50)</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="sensory">
+                <div class="title">Sensory subscores</div>
+                <ul>
+                    <li>
+                        <div class="item">
+                            <span>LTR</span>
+                            <span class="total" data-name="RightTouchTotal" data-controller="IsncsciTotals">&nbsp;</span>
+                        </div>
+                        <div class="helper">MAX (56)</div>
+                    </li>
+                    <li>
+                        <div class="item"><span>+ LTL</span></div>
+                    </li>
+                    <li>
+                        <div class="item"><span class="total" data-name="LeftTouchTotal" data-controller="IsncsciTotals">&nbsp;</span></div>
+                        <div class="helper">(56)</div>
+                    </li>
+                    <li>
+                        <div class="item"><span>= LT TOTAL</span></div>
+                    </li>
+                    <li>
+                        <div class="item"><span class="total" data-name="TouchTotal" data-controller="IsncsciTotals">&nbsp;</span></div>
+                        <div class="helper">(112)</div>
+                    </li>
+                    <li>
+                        <div class="item">
+                            <span>PPR</span>
+                            <span class="total" data-name="RightPrickTotal" data-controller="IsncsciTotals">&nbsp;</span>
+                        </div>
+                        <div class="helper">MAX (56)</div>
+                    </li>
+                    <li>
+                        <div class="item"><span>+ PPL</span></div>
+                    </li>
+                    <li>
+                        <div class="item"><span class="total" data-name="LeftPrickTotal" data-controller="IsncsciTotals">&nbsp;</span></div>
+                        <div class="helper">(56)</div>
+                    </li>
+                    <li>
+                        <div class="item"><span>= PP TOTAL</span></div>
+                    </li>
+                    <li>
+                        <div class="item"><span class="total" data-name="PrickTotal" data-controller="IsncsciTotals">&nbsp;</span></div>
+                        <div class="helper">(112)</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="TestTotals" data-name="TestTotals" data-controller="IsncsciTotals"></div>
+        <div class="show-all" data-name="ShowAll" data-controller="IsncsciTotals">Show me all the options</div>
+        <ul class="all-totals" data-name="AllTotals" data-controller="IsncsciTotals"></ul>
+        <div class="busy-indicator-container" data-name="BusyIndicator" data-controller="NeurologyTest">
+            <div id="CalcIndicator">
+                <div id="CalcIndicatorCalculating">
+                    <p>Calculating, please wait</p>
+                </div>
+            </div>
+        </div>
+        <div class="range-dialog" data-controller="IsncsciTotals" data-name="RangeDialog">
+            <div class="frame">
+                <div class="content" data-controller="IsncsciTotals" data-name="RangeDialogContent"></div>
+            </div>
+        </div>
+        <script type="text/html" data-name="TotalsTemplate" data-controller="IsncsciTotals">
+            <div class="test-totals">
+                <div class="block instructions">
+                    <div class="title">Neurological<br />levels</div>
+                    <div class="helper">Steps 1-5 for<br />classification</div>
+                </div>
+                <div class="block">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>&nbsp;</th>
+                                <th>R</th>
+                                <th>L</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th style="text-align: right;">1. Sensory</th>
+                                <td><div class="total" data-name="RightSensory" data-controller="IsncsciTotals" data-type="Total" data-value="">&nbsp;</div></td>
+                                <td><div class="total" data-name="LeftSensory" data-controller="IsncsciTotals" data-type="Total" data-value="">&nbsp;</div></td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right;">2. Motor</th>
+                                <td><div class="total" data-name="RightMotor" data-controller="IsncsciTotals" data-type="Total" data-value="">&nbsp;</div></td>
+                                <td><div class="total" data-name="LeftMotor" data-controller="IsncsciTotals" data-type="Total" data-value="">&nbsp;</div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="block">
+                    <table>
+                        <tr>
+                            <th>3. Neurological<br />Level of Injury<br />(NLI)</th>
+                            <td><div class="total" style="width:50px;" data-name="NeurologicalLevelOfInjury" data-controller="IsncsciTotals" data-type="Total" data-value="">&nbsp;</div></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="block">
+                    <table>
+                        <tr>
+                            <td style="text-align: right;">
+                                <div class="title">4. Complete or incomplete?</div>
+                                <div class="helper">Incomplete = Any sensory or motor funtion in S4-5</div>
+                            </td>
+                            <td><div class="total" data-name="Completeness" data-controller="IsncsciTotals" data-type="Total" data-value="">&nbsp;</div></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right;">5. Asia Impairment Scale (AIS)</th>
+                            <td><div class="total" style="width:50px;" data-name="AsiaImpairmentScale" data-controller="IsncsciTotals" data-type="Total" data-value="">&nbsp;</div></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="block" style="text-align: center;">
+                    <div class="helper">(In complete injuries only)</div>
+                    <div class="title">Zone of partial<br />preservation</div>
+                    <div class="helper">Most caudal level with any<br />innervation</div>
+                </div>
+                <div class="block">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>&nbsp;</th>
+                                <th>R</th>
+                                <th>L</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th style="text-align: right;">Sensory</th>
+                                <td><div class="total" data-name="RightSensoryZpp" data-controller="IsncsciTotals" data-type="Total" data-value="">&nbsp;</div></td>
+                                <td><div class="total" data-name="LeftSensoryZpp" data-controller="IsncsciTotals" data-type="Total" data-value="">&nbsp;</div></td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right;">Motor</th>
+                                <td><div class="total" data-name="RightMotorZpp" data-controller="IsncsciTotals" data-type="Total" data-value="">&nbsp;</div></td>
+                                <td><div class="total" data-name="LeftMotorZpp" data-controller="IsncsciTotals" data-type="Total" data-value="">&nbsp;</div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </script>
+    </div>
+    <div class="footer">
+        <a href="http://www.rickhanseninstitute.org/" target="_blank"><img src="/Content/Images/footer-rhi.jpg" width="123" height="32" alt="Rick Hansen Institute (RHI)" /></a>
+        <a href="http://www.iscos.org.uk/" target="_blank"><img src="/Content/Images/footer-iscos.jpg" width="91" height="32" alt="International Spinal Cord Society (ISCoS)" /></a>
+        @*<div>&copy;2012-@DateTime.Now.Year</div>*@
+    </div>
+</body>
+</html>
