@@ -17,19 +17,31 @@ using System.Web.Mvc;
 
 namespace Isncsci.Web.Controllers
 {
+    // Not the best practice.  It would be better if JSON related transactions are handled via POST
+    // But if you really want to bypass MVC's protections you can use this attribute on your controller methods
+    public class AllowJsonGetAttribute : ActionFilterAttribute
+    {
+        public override void OnResultExecuting(ResultExecutingContext filterContext)
+        {
+            var jsonResult = filterContext.Result as JsonResult;
+
+            if (jsonResult == null)
+                throw new System.ArgumentException("Action does not return a JsonResult, attribute AllowJsonGet is not allowed");
+
+            jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
+            base.OnResultExecuting(filterContext);
+        }
+    }
+
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
-            var model = new NeurologyFormModel
-            {
-                AnalContraction = Rhi.Isncsci.BinaryObservation.Yes,
-                AnalSensation = Rhi.Isncsci.BinaryObservation.No
-            };
-
             return View();
         }
 
+        [AllowJsonGet]
         public JsonResult FormData()
         {
             var model = new NeurologyFormModel

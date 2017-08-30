@@ -43,7 +43,7 @@ function Run() {
         return true;
     });
 
-    setTimeout(function () { $.post('Home/FormData/', {}, _onFormData); }, 500);
+    setTimeout(function () { $.get('Home/FormData/').done(_onFormData); }, 500);
 
     function _onFormData(data) {
         var form = controller.IsncsciForm;
