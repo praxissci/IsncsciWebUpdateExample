@@ -498,18 +498,21 @@ sci.neurology.NeurologyTestController.prototype.Save_Click = function (e) {
     var varurl = '/PatientTest/Save/';
     var view = e.view.location.toString();
     var patientTestId = view.substring(view.indexOf("=") + 1);
+    var patientName = this.View.find('#patient-name').val();
 
     var jqXHR = $.ajax({
         method: 'post',
         traditional: true,
         url: varurl,
 
-        data: Object.assign({
+        data: {
             'PatientTestId': patientTestId,
             'TestType': x.TestType,
             'Examiner1': x.Examiner1,
             'Examiner2': x.Examiner2,
             'TestStatusId': x.TestStatusId,
+            'C2RightTouch': x.C2RightTouch,
+            'patientName': patientName
             //MSUERTotal
             //MSUELTotal
             //MSUEMSTotal
@@ -535,7 +538,7 @@ sci.neurology.NeurologyTestController.prototype.Save_Click = function (e) {
             //ZonePartPresMotoL
             //LastUpdateDate
             //LastUpdateBy
-        }, formData.Form),
+        },
         cache: false,
         success: function (results) {
             alert("success")
