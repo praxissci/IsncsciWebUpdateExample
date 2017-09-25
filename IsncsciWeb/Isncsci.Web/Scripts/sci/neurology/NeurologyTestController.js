@@ -126,6 +126,7 @@ sci.neurology.NeurologyTestController.prototype.Initialize = function (view) {
         .val('');
     jqueryHelper.filter('[data-name=CalculateButton]').bind('click', function (e) { return that.Calculate_Click(e); });
     jqueryHelper.filter('[data-name=ClearFormButton]').bind('click', function (e) { that.ClearForm(); return false; });
+    jqueryHelper.filter('[data-name=SaveButton]').bind('click', function (e) { return that.Save_Click(e); });
 
     this.ImpairmentNotDueToSciComponents.Reason.Input.bind('focus', function (e) { that.CellInputHasFocus = true; return true; })
         .bind('blur', function (e) { that.CellInputHasFocus = false; return true; })
@@ -212,7 +213,7 @@ sci.neurology.NeurologyTestController.prototype.UpdateImpairmentNotDueToSciCompo
     this.ImpairmentNotDueToSciComponents.Comments.Container.removeClass('not-applicable');
 
     var impairmentType = dermatome.MeasurementType === 'Motor'
-                         ? dermatome.Value == '5*'
+        ? dermatome.Value == '5*'
             ? this.ImpairmentNotDueToSci
             : this.MotorImpairmentNotDueToSci
         : this.SensoryImpairmentNotDueToSci;
@@ -223,7 +224,7 @@ sci.neurology.NeurologyTestController.prototype.UpdateImpairmentNotDueToSciCompo
     for (var i = 0; i < optionsLength; i++) {
         var option = impairmentType.Options[i];
         options += dermatome.Reason === option.Value
-                   ? '<option value="' + option.Value + '" selected="selected" class="cell-input">' + option.Label + '</option>'
+            ? '<option value="' + option.Value + '" selected="selected" class="cell-input">' + option.Label + '</option>'
             : '<option value="' + option.Value + '" class="cell-input">' + option.Label + '</option>';
     }
 
@@ -482,5 +483,70 @@ sci.neurology.NeurologyTestController.prototype.Calculate_Click = function (e) {
     });
 
     return false;
+};
+sci.neurology.NeurologyTestController.prototype.Save_Click = function (e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    e.stopPropagation();
+
+    var that = this;
+    var formData = this.IsncsciForm.ExportToJson();
+    
+    var x = formData.Form;
+
+    //var varurl = '@Url.Action("Save", "PatientTest")';
+    var varurl = '/PatientTest/Save/';
+    var view = e.view.location.toString();
+    var patientTestId = view.substring(view.indexOf("=") + 1);
+
+    var jqXHR = $.ajax({
+        method: 'post',
+        traditional: true,
+        url: varurl,
+
+        data: Object.assign({
+            'PatientTestId': patientTestId,
+            'TestType': x.TestType,
+            'Examiner1': x.Examiner1,
+            'Examiner2': x.Examiner2,
+            'TestStatusId': x.TestStatusId,
+            //MSUERTotal
+            //MSUELTotal
+            //MSUEMSTotal
+            //MSLERTotal
+            //MSLELTotal
+            //MSLEMSTotal
+            //SSLTRTotal
+            //SSLTLTotal
+            //SSLTTotal
+            //SSPPRTotal
+            //SSPPLTotal
+            //SSPPTotal
+            //NLSENSR
+            //NLSENSL
+            //NLMOTOTR
+            //NLMOTORL
+            //NLInjury
+            //ComplIncompl
+            //AIS
+            //ZonePartPresSensR
+            //ZonePartPresSensL
+            //ZonePartPresMotoR
+            //ZonePartPresMotoL
+            //LastUpdateDate
+            //LastUpdateBy
+        }, formData.Form),
+        cache: false,
+        success: function (results) {
+            alert("success")
+        }
+    }).done(function (result) {
+            alert("done");
+        })
+        .error(function (xhr, status, error) {
+            alert("error" + error);
+        });
+
+    return true;
 };
 sci.Ready('sci.neurology.NeurologyTestController');

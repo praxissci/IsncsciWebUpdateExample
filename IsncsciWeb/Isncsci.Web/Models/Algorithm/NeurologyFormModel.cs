@@ -19,6 +19,39 @@ namespace Isncsci.Web.Models.Algorithm
 {
     public class NeurologyFormModel
     {
+        // -- CHANGES REQUIRED FOR PATIENTTESTCONTROLLER TO WORK -----------------------
+        public string Comments { get; set; }
+        public string RightMotorTotal { get; set; }
+        public string RightTouchTotal { get; set; }
+        public string RightPrickTotal { get; set; }
+        public string LeftMotorTotal { get; set; }
+        public string LeftTouchTotal { get; set; }
+        public string LeftPrickTotal { get; set; }
+        public string MSUERTotal { get; set; }
+        public string MSUELTotal { get; set; }
+        public string MSUEMSTotal { get; set; }
+        public string MSLERTotal { get; set; }
+        public string MSLELTotal { get; set; }
+        public string MSLEMSTotal { get; set; }
+        public string SSLTRTotal { get; set; }
+        public string SSLTLTotal { get; set; }
+        public string SSLTTotal { get; set; }
+        public string SSPPRTotal { get; set; }
+        public string SSPPLTotal { get; set; }
+        public string SSPPTotal { get; set; }
+        public string NLSENSR { get; set; }
+        public string NLSENSL { get; set; }
+        public string NLMOTOTR { get; set; }
+        public string NLMOTORL { get; set; }
+        public string NLInjury { get; set; }
+        public string ComplIncompl { get; set; }
+        public string AIS { get; set; }
+        public string ZonePartPresSensR { get; set; }
+        public string ZonePartPresSensL { get; set; }
+        public string ZonePartPresMotoR { get; set; }
+        public string ZonePartPresMotoL { get; set; }
+        //-------------------------------------------------------------------------
+
         public BinaryObservation AnalContraction { get; set; }
         public BinaryObservation AnalSensation { get; set; }
         public string RightLowestNonKeyMuscleWithMotorFunction { get; set; }
