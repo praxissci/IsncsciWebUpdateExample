@@ -582,7 +582,7 @@ namespace Isncsci.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult Save(string PatientTestId, TestType testType, String Examiner1, String Examiner2, string TestStatusId, string C2RightTouch)
+        public JsonResult Save(string PatientTestId, TestType testType, String Examiner1, String Examiner2, string TestStatusId, string C2RightTouch, string patientName)
         {
             var x = Request.Form["PatientTest_PatientTestId"];
             //return RedirectToAction("Index", new { PatientTestId = 29 });
@@ -591,7 +591,8 @@ namespace Isncsci.Web.Controllers
                 Examiner1,
                 Examiner2,
                 TestStatusId,
-                C2RightTouch
+                C2RightTouch,
+                patientName
             });
         }
     }

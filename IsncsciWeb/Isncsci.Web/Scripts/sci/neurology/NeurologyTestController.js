@@ -485,6 +485,15 @@ sci.neurology.NeurologyTestController.prototype.Calculate_Click = function (e) {
     return false;
 };
 sci.neurology.NeurologyTestController.prototype.Save_Click = function (e) {
+    // Sherry, I'm showing you here hot to referrence the <span> for RightTouchTotal.
+    // You could do this on initialize, so it only has to be done once, if you want.
+    // Here I'm using jQuery to select all the elements with data-controller=IsncsciTotals,
+    // so that we do not have to pars the entire page on every subsequent selection
+    var isncsciTotals = this.View.find('[data-controller=IsncsciTotals]');
+    // From the totals, we can now filter by data-name
+    var rightTouchTotal = isncsciTotals.filter('[data-name=RightTouchTotal]');
+    alert('The value for right touch total is: ' + rightTouchTotal.text());
+
     e.preventDefault();
     e.stopImmediatePropagation();
     e.stopPropagation();
